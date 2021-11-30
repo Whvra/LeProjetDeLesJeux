@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/julie/AndroidStudioProjects/SRIO/LeProjetDeLesJeux/app/src/main/res/layout/activity_games_interface.xml" value="0.6" />
-        <entry key="..\:/Users/julie/AndroidStudioProjects/SRIO/LeProjetDeLesJeux/app/src/main/res/layout/activity_main.xml" value="0.536" />
+        <entry key="app/src/main/res/layout/activity_games_interface.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_shake_it.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_shakeit.xml" value="0.1359375" />
+        <entry key="app/src/main/res/layout/activity_single_player.xml" value="0.33" />
       </map>
     </option>
   </component>
