@@ -1,5 +1,7 @@
 package com.example.leprojetdelesjeux;
 
+import static java.lang.Math.abs;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -22,6 +24,7 @@ public class ShakeIt extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
     private Sensor accelerometer;
+    private int score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +32,7 @@ public class ShakeIt extends AppCompatActivity implements SensorEventListener {
         setContentView(R.layout.activity_shake_it);
 
         TextView chrono = findViewById(R.id.timerView);
-        TextView score = findViewById(R.id.scoreView);
+        TextView scoreView = findViewById(R.id.scoreView);
         Button startButton = findViewById(R.id.startButton);
 
         //initialisation du gestionnaire de capteurs
@@ -42,12 +45,11 @@ public class ShakeIt extends AppCompatActivity implements SensorEventListener {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int score = 0;
+                score = 0;
                 new CountDownTimer(10000, 50) {
                     public void onTick(long millisUntilFinished) {
                         chrono.setText(""+millisUntilFinished / 1000.0);
-                        //récupérer la valeur de l'accéléromètre et l'incrémenter
-                        //display l'incrément
+                        scoreView.setText(""+score);
                     }
 
                     public void onFinish() {
@@ -62,14 +64,8 @@ public class ShakeIt extends AppCompatActivity implements SensorEventListener {
     @Override
     public final void onSensorChanged(SensorEvent event) {
         float acceleration = event.values[0];
-        Context context = getApplicationContext();
-        int duration = Toast.LENGTH_SHORT;
-
-        if(acceleration > 10 || acceleration < -10) {
-            CharSequence text = "OH OUI SECOUE MOI ENCORE";
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        }
+        acceleration = abs(acceleration);
+        score += (int)acceleration;
     }
 
     @Override
