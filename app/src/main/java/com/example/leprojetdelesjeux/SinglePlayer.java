@@ -18,4 +18,9 @@ public class SinglePlayer extends AppCompatActivity {
         Intent intent = new Intent(this, ShakeIt.class);
         startActivity(intent);
     }
+
+    public void OpenJustePrix(View view) {
+        Intent intent = new Intent(this, JustePrix.class);
+        startActivity(intent);
+    }
 }
