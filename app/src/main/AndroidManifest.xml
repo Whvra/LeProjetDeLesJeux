@@ -11,7 +11,12 @@
         android:theme="@style/Theme.LeProjetDeLesJeux">
         <activity
             android:name=".ShakeIt"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity" />
+
         <activity
             android:name=".Multiplayer"
             android:exported="true"
@@ -29,7 +34,7 @@
             android:value=".MainActivity" />
 
         <activity
-            android:name=".PlayMenu"
+            android:name=".GamesInterface"
             android:exported="true"
             android:parentActivityName=".MainActivity" /> <!-- The meta-data tag is required if you support API level 15 and lower -->
         <meta-data
@@ -37,7 +42,7 @@
             android:value=".MainActivity" />
 
         <activity
-            android:name=".GamesInterface"
+            android:name=".JustePrix"
             android:exported="true"
             android:parentActivityName=".MainActivity" /> <!-- The meta-data tag is required if you support API level 15 and lower -->
         <meta-data
