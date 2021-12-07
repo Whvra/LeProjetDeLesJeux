@@ -62,6 +62,7 @@ public class JustePrix extends AppCompatActivity {
                             } else if (guess == prix) {
                                 textResult.setText("Bravo c'est gagné, le prix était bien : " + prix);
                                 countDownTimer.cancel();
+                                buttonStart.setEnabled(true);
                             } else {
                                 textResult.setText("C'est moins!");
                             }
@@ -114,6 +115,7 @@ public class JustePrix extends AppCompatActivity {
                 countDownTimer.start();
                 rand = (int) (Math.random()*100000);
                 prix = (int) Math.round(rand * 100) / 100;
+                buttonStart.setEnabled(false);
             }
         });
 
@@ -126,6 +128,7 @@ public class JustePrix extends AppCompatActivity {
             public void onFinish() {
                 timer.setText("Temps Ecoulé");
                 finished = true;
+                buttonStart.setEnabled(true);
             }
         };
     }
