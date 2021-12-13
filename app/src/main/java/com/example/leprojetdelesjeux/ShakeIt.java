@@ -67,7 +67,7 @@ public class ShakeIt extends AppCompatActivity implements SensorEventListener {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gameToLaunch = (int)(Math.random()*(1-0+1)+0); //jeu à lancer tiré au sort
+                gameToLaunch = (int)(Math.random()*(2-0+2)+0); //jeu à lancer tiré au sort
                 //gameToLaunch = 2;
                 //System.out.println(gameToLaunch);
                 score = 0;
@@ -77,7 +77,7 @@ public class ShakeIt extends AppCompatActivity implements SensorEventListener {
                         titre.setText("Shake It !");
                         explanation.setText("Vous avez 10s pour secouer votre téléphone le plus fort possible !");
                         startButton.setEnabled(false);
-                        new CountDownTimer(10000, 50) {
+                        new CountDownTimer(5000, 50) {
                             public void onTick(long millisUntilFinished) {
                                 chrono.setText(""+millisUntilFinished / 1000.0);
                                 scoreView.setText(""+score);
