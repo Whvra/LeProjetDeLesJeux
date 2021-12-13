@@ -23,4 +23,9 @@ public class SinglePlayer extends AppCompatActivity {
         Intent intent = new Intent(this, JustePrix.class);
         startActivity(intent);
     }
+
+    public void OpenColors(View view) {
+        Intent intent = new Intent(this, Colors.class);
+        startActivity(intent);
+    }
 }

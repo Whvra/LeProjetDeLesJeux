@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fond"
     tools:context=".SinglePlayer">
 
     <TextView
@@ -39,4 +40,17 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="94dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="556dp"
+        android:onClick="OpenColors"
+        android:text="Colors"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

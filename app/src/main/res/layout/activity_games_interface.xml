@@ -4,7 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fond"
     tools:context=".GamesInterface">
+
+    <Button
+        android:id="@+id/buttonShake"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="188dp"
+        android:layout_marginEnd="60dp"
+        android:onClick="onButtonShowPopupWindowClickShake"
+        android:text="Shake It"
+        app:layout_constraintEnd_toStartOf="@+id/button13"
+        app:layout_constraintHorizontal_bias="0.869"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"
@@ -12,8 +27,35 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:text="Liste des jeux"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button13"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="188dp"
+        android:layout_marginEnd="64dp"
+        android:onClick="onButtonShowPopupWindowClickJuste"
+        android:text="Juste Prix"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button14"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginBottom="296dp"
+        android:onClick="onButtonShowPopupWindowClickColors"
+        android:text="Colors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonShake"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
