@@ -28,4 +28,9 @@ public class SinglePlayer extends AppCompatActivity {
         Intent intent = new Intent(this, Colors.class);
         startActivity(intent);
     }
+
+    public void OpenPerfectCircle(View view) {
+        Intent intent = new Intent(this, PerfectCircle.class);
+        startActivity(intent);
+    }
 }
