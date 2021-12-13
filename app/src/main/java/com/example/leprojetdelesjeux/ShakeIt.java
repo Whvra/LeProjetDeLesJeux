@@ -3,8 +3,11 @@ package com.example.leprojetdelesjeux;
 import static java.lang.Math.abs;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -19,6 +22,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 
@@ -34,6 +38,10 @@ public class ShakeIt extends AppCompatActivity implements SensorEventListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shake_it);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 10);
+        }
 
         TextView chrono = findViewById(R.id.timerView);
         TextView titre = findViewById(R.id.titleView);
@@ -60,7 +68,7 @@ public class ShakeIt extends AppCompatActivity implements SensorEventListener {
             @Override
             public void onClick(View v) {
                 gameToLaunch = (int)(Math.random()*(1-0+1)+0); //jeu à lancer tiré au sort
-                //gameToLaunch = 0;
+                //gameToLaunch = 2;
                 //System.out.println(gameToLaunch);
                 score = 0;
 
@@ -96,9 +104,32 @@ public class ShakeIt extends AppCompatActivity implements SensorEventListener {
                         }.start();
                     break;
                     case 2: //scream
-                        MediaRecorder recorder = new MediaRecorder();
-                        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-
+                        titre.setText("Scream !");
+                        explanation.setText("CRIEEEEEZ !");
+                        startButton.setEnabled(false);
+                        SoundMeter enregistrement = new SoundMeter();
+                        try {
+                            enregistrement.start();
+                            System.out.println("Enregistrement commencé");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        final double[] score = {0};
+                        new CountDownTimer(5000, 50) {
+                            public void onTick(long millisUntilFinished) {
+                                chrono.setText(""+millisUntilFinished / 1000.0);
+                                double scoreToAdd = enregistrement.getAmplitude();
+                                System.out.println("Score : "+score);
+                                score[0] = score[0] + scoreToAdd;
+                                scoreView.setText(""+ (int)score[0]);
+                            }
+                            public void onFinish() {
+                                enregistrement.stop();
+                                System.out.println("Enregistrement terminé");
+                                chrono.setText("Terminé !");
+                                startButton.setEnabled(true);
+                            }
+                        }.start();
                     break;
                 }
 
@@ -150,5 +181,39 @@ public class ShakeIt extends AppCompatActivity implements SensorEventListener {
     protected void onPause() {
         super.onPause();
         sensorManager.unregisterListener(this);
+    }
+}
+
+class SoundMeter {
+
+    private MediaRecorder mRecorder = null;
+
+    public void start() throws IOException {
+        if (mRecorder == null) {
+            mRecorder = new MediaRecorder();
+            //System.out.println(mRecorder.getActiveMicrophones());
+            mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            mRecorder.setOutputFile("/dev/null");
+            mRecorder.prepare();
+            mRecorder.start();
+        }
+    }
+
+    public void stop() {
+        if (mRecorder != null) {
+            mRecorder.stop();
+            mRecorder.release();
+            mRecorder = null;
+        }
+    }
+
+    public double getAmplitude() {
+        if (mRecorder != null)
+            return  mRecorder.getMaxAmplitude();
+        else
+            return 0;
+
     }
 }
