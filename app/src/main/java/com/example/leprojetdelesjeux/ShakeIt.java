@@ -9,6 +9,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -18,13 +19,16 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Timer;
 
 public class ShakeIt extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
     private Sensor accelerometer;
+    private Sensor lightSensor;
     private int score;
+    private int gameToLaunch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,40 +36,95 @@ public class ShakeIt extends AppCompatActivity implements SensorEventListener {
         setContentView(R.layout.activity_shake_it);
 
         TextView chrono = findViewById(R.id.timerView);
+        TextView titre = findViewById(R.id.titleView);
+        TextView explanation = findViewById(R.id.explanationView);
         TextView scoreView = findViewById(R.id.scoreView);
         Button startButton = findViewById(R.id.startButton);
+
+        explanation.setText("Bienvenue dans les Sensor Games. Ici, 3 jeux vous sont proposés, appuyez sur le bouton START et un jeu aléatoire se lancera");
 
         //initialisation du gestionnaire de capteurs
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
-        //récupération de l'accéléromètre
+        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        System.out.println(accelerometer.getName());
+
+        sensorManager.registerListener(this, accelerometer, 500000, sensorManager.SENSOR_DELAY_NORMAL);
+
+        System.out.println("Infos accéléromètre : ");
+        System.out.println("Min delay : "+accelerometer.getMinDelay());
+        System.out.println("Max delay : "+accelerometer.getMaxDelay());
+        System.out.println("Max range : "+accelerometer.getMaximumRange());
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                gameToLaunch = (int)(Math.random()*(1-0+1)+0); //jeu à lancer tiré au sort
+                //gameToLaunch = 0;
+                //System.out.println(gameToLaunch);
                 score = 0;
-                new CountDownTimer(10000, 50) {
-                    public void onTick(long millisUntilFinished) {
-                        chrono.setText(""+millisUntilFinished / 1000.0);
-                        scoreView.setText(""+score);
-                    }
 
-                    public void onFinish() {
-                        chrono.setText("Terminé !");
-                    }
+                switch (gameToLaunch) {
+                    case 0: //shake it
+                        titre.setText("Shake It !");
+                        explanation.setText("Vous avez 10s pour secouer votre téléphone le plus fort possible !");
+                        startButton.setEnabled(false);
+                        new CountDownTimer(10000, 50) {
+                            public void onTick(long millisUntilFinished) {
+                                chrono.setText(""+millisUntilFinished / 1000.0);
+                                scoreView.setText(""+score);
+                            }
+                            public void onFinish() {
+                                chrono.setText("Terminé !");
+                                startButton.setEnabled(true);
+                            }
+                        }.start();
+                    break;
+                    case 1: //light game
+                        titre.setText("Light Game !");
+                        explanation.setText("Vous avez 5s pour trouver l'endroit le plus lumineux !");
+                        startButton.setEnabled(false);
+                        new CountDownTimer(5000, 50) {
+                            public void onTick(long millisUntilFinished) {
+                                chrono.setText(""+millisUntilFinished / 1000.0);
+                                scoreView.setText(""+score);
+                            }
+                            public void onFinish() {
+                                chrono.setText("Terminé !");
+                                startButton.setEnabled(true);
+                            }
+                        }.start();
+                    break;
+                    case 2: //scream
+                        MediaRecorder recorder = new MediaRecorder();
+                        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 
-                }.start();
+                    break;
+                }
+
             }
         });
     }
 
     @Override
     public final void onSensorChanged(SensorEvent event) {
-        float acceleration = event.values[0];
-        acceleration = abs(acceleration);
-        score += (int)acceleration;
+        System.out.println("arrivée dans onSensorChange()");
+        switch(gameToLaunch) {
+            case 0: //capteur d'accélération
+                float acceleration = event.values[0];
+                acceleration = abs(acceleration);
+                score += (int)acceleration;
+            break;
+            case 1: //capteur de luminosité
+                float luminosity = event.values[0]*1000;
+                System.out.println("Luminosité : "+luminosity);
+                System.out.println("Score : "+score);
+                if((int)luminosity > score) {
+                    score = (int)luminosity;
+                }
+            break;
+        }
+
     }
 
     @Override
@@ -76,7 +135,15 @@ public class ShakeIt extends AppCompatActivity implements SensorEventListener {
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        switch(gameToLaunch) {
+            case 0:
+                sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+                break;
+            case 1:
+                sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+            break;
+        }
+
     }
 
     @Override
