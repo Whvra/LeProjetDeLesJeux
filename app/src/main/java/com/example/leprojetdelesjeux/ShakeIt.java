@@ -111,7 +111,7 @@ public class ShakeIt extends AppCompatActivity implements SensorEventListener {
                         try {
                             enregistrement.start();
                             System.out.println("Enregistrement commencé");
-                        } catch (IOException e) {
+                        } catch (IOException | InterruptedException e) {
                             e.printStackTrace();
                         }
                         final double[] score = {0};
@@ -188,15 +188,16 @@ class SoundMeter {
 
     private MediaRecorder mRecorder = null;
 
-    public void start() throws IOException {
+    public void start() throws IOException, InterruptedException {
         if (mRecorder == null) {
             mRecorder = new MediaRecorder();
             //System.out.println(mRecorder.getActiveMicrophones());
             mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-            mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
             mRecorder.setOutputFile("/dev/null");
             mRecorder.prepare();
+            //Thread.sleep(1000);
             mRecorder.start();
         }
     }
