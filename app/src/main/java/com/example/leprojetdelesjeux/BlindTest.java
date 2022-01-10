@@ -9,6 +9,7 @@ import android.os.CountDownTimer;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,7 +34,18 @@ public class BlindTest extends AppCompatActivity {
     Button buttonAuDD;
     Button buttonWati;
 
+    TextView textScore;
+    TextView timerBT;
+
+    MediaPlayer current;
+    MediaPlayer next;
+
     private CountDownTimer countDownTimer;
+
+    int i;
+
+    Boolean started;
+    Boolean finished;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +63,17 @@ public class BlindTest extends AppCompatActivity {
         buttonGOT = findViewById(R.id.buttonGOT);
         buttonAuDD = findViewById(R.id.buttonAuDD);
         buttonWati = findViewById(R.id.buttonWati);
+
+        textScore = findViewById(R.id.score);
+        timerBT = findViewById(R.id.timerBT);
+        buttonSimp.setEnabled(false);
+        buttonOuiOui.setEnabled(false);
+        buttonOnTheFloor.setEnabled(false);
+        buttonMarseillaise.setEnabled(false);
+        buttonLDC.setEnabled(false);
+        buttonGOT.setEnabled(false);
+        buttonAuDD.setEnabled(false);
+        buttonWati.setEnabled(false);
 
         listSong.add("generiquedessimpson2eme");
         listSong.add("generiqueouiouifrancais");
@@ -102,14 +125,28 @@ public class BlindTest extends AppCompatActivity {
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                i=0;
+                countDownTimer.start();
+                Collections.shuffle(listExtrait);
                 score = 0;
                 buttonStart.setEnabled(false);
-                startBlindTest();
-                listExtrait.get(listExtrait.size()-1).getMp().release();
+                //startBlindTest();
+                buttonSimp.setEnabled(true);
+                buttonOuiOui.setEnabled(true);
+                buttonOnTheFloor.setEnabled(true);
+                buttonMarseillaise.setEnabled(true);
+                buttonLDC.setEnabled(true);
+                buttonGOT.setEnabled(true);
+                buttonAuDD.setEnabled(true);
+                buttonWati.setEnabled(true);
+                current = listExtrait.get(i).getMp();
+                next = listExtrait.get(i+1).getMp();
+                current.start();
+
             }
         });
 
-        buttonSimp.setOnClickListener(new View.OnClickListener() {
+       /** buttonSimp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (name == "generiquedessimpson2eme") {
@@ -120,12 +157,14 @@ public class BlindTest extends AppCompatActivity {
                     buttonSimp.setEnabled(false);
                     buttonSimp.setBackgroundColor(Color.RED);
                 }
+                current.stop();
+                next.start();
             }
         });
 
         buttonOuiOui.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClickOuiOui(View view) {
                 if (name == "generiqueouiouifrancais") {
                     score++;
                     buttonOuiOui.setEnabled(false);
@@ -134,6 +173,8 @@ public class BlindTest extends AppCompatActivity {
                     buttonOuiOui.setEnabled(false);
                     buttonOuiOui.setBackgroundColor(Color.RED);
                 }
+                current.stop();
+                next.start();
             }
         });
 
@@ -148,6 +189,8 @@ public class BlindTest extends AppCompatActivity {
                     buttonLDC.setEnabled(false);
                     buttonLDC.setBackgroundColor(Color.RED);
                 }
+                current.stop();
+                next.start();
             }
         });
 
@@ -162,6 +205,8 @@ public class BlindTest extends AppCompatActivity {
                     buttonGOT.setEnabled(false);
                     buttonGOT.setBackgroundColor(Color.RED);
                 }
+                current.stop();
+                next.start();
             }
         });
 
@@ -176,6 +221,8 @@ public class BlindTest extends AppCompatActivity {
                     buttonAuDD.setEnabled(false);
                     buttonAuDD.setBackgroundColor(Color.RED);
                 }
+                current.stop();
+                next.start();
             }
         });
 
@@ -190,6 +237,8 @@ public class BlindTest extends AppCompatActivity {
                     buttonOnTheFloor.setEnabled(false);
                     buttonOnTheFloor.setBackgroundColor(Color.RED);
                 }
+                current.stop();
+                next.start();
             }
         });
 
@@ -204,6 +253,8 @@ public class BlindTest extends AppCompatActivity {
                     buttonWati.setEnabled(false);
                     buttonWati.setBackgroundColor(Color.RED);
                 }
+                current.stop();
+                next.start();
             }
         });
 
@@ -218,22 +269,282 @@ public class BlindTest extends AppCompatActivity {
                     buttonMarseillaise.setEnabled(false);
                     buttonMarseillaise.setBackgroundColor(Color.RED);
                 }
+                current.stop();
+                next.start();
             }
-        });
+        });**/
 
-        countDownTimer = new CountDownTimer(60 * 1000, 10) {
+        countDownTimer = new CountDownTimer(30 * 1000, 1000) {
             public void onTick(long millisUntilFinished) {
-                //timer.setText("Temps restant : " + millisUntilFinished / 1000);
-                //started = true;
+                timerBT.setText("Temps restant : " + millisUntilFinished / 1000);
+                started = true;
             }
 
             public void onFinish() {
-                //timer.setText("Temps Ecoulé");
-                //finished = true;
+                timerBT.setText("Terminé");
+                finished = true;
                 buttonStart.setEnabled(true);
             }
         };
     }
+
+        public void onClickSimpson(View view) {
+            name = listExtrait.get(i).getName();
+            if (name == "generiquedessimpson2eme") {
+                score++;
+                buttonSimp.setEnabled(false);
+                buttonSimp.setBackgroundColor(Color.GREEN);
+            } else {
+                buttonSimp.setEnabled(false);
+                buttonSimp.setBackgroundColor(Color.RED);
+            }
+            current.stop();
+            current.release();
+            i++;
+            current = listExtrait.get(i).getMp();
+            if(i<listExtrait.size()-1){
+                next.start();
+                next = listExtrait.get(i+1).getMp();
+            }
+            if(i==7){
+                buttonSimp.setEnabled(false);
+                buttonOuiOui.setEnabled(false);
+                buttonOnTheFloor.setEnabled(false);
+                buttonMarseillaise.setEnabled(false);
+                buttonLDC.setEnabled(false);
+                buttonGOT.setEnabled(false);
+                buttonAuDD.setEnabled(false);
+                buttonWati.setEnabled(false);
+                countDownTimer.cancel();
+                textScore.setText(""+score);
+            }
+        }
+
+        public void onClickOuiOui(View view) {
+            name = listExtrait.get(i).getName();
+            if (name == "generiqueouiouifrancais") {
+                score++;
+                buttonOuiOui.setEnabled(false);
+                buttonOuiOui.setBackgroundColor(Color.GREEN);
+            } else {
+                buttonOuiOui.setEnabled(false);
+                buttonOuiOui.setBackgroundColor(Color.RED);
+            }
+            current.stop();
+            current.release();
+            i++;
+            current = listExtrait.get(i).getMp();
+            if(i<listExtrait.size()-1){
+                next.start();
+                next = listExtrait.get(i+1).getMp();
+            }
+            if(i==7){
+                buttonSimp.setEnabled(false);
+                buttonOuiOui.setEnabled(false);
+                buttonOnTheFloor.setEnabled(false);
+                buttonMarseillaise.setEnabled(false);
+                buttonLDC.setEnabled(false);
+                buttonGOT.setEnabled(false);
+                buttonAuDD.setEnabled(false);
+                buttonWati.setEnabled(false);
+                countDownTimer.cancel();
+                textScore.setText(""+score);
+            }
+        }
+
+        public void onClickLDC(View view) {
+            name = listExtrait.get(i).getName();
+            if (name == "musiqueliguedeschampionstheme") {
+                score++;
+                buttonLDC.setEnabled(false);
+                buttonLDC.setBackgroundColor(Color.GREEN);
+            } else {
+                buttonLDC.setEnabled(false);
+                buttonLDC.setBackgroundColor(Color.RED);
+            }
+            current.stop();
+            current.release();
+            i++;
+            current = listExtrait.get(i).getMp();
+            if(i<listExtrait.size()-1){
+                next.start();
+                next = listExtrait.get(i+1).getMp();
+            }
+            if(i==7){
+                buttonSimp.setEnabled(false);
+                buttonOuiOui.setEnabled(false);
+                buttonOnTheFloor.setEnabled(false);
+                buttonMarseillaise.setEnabled(false);
+                buttonLDC.setEnabled(false);
+                buttonGOT.setEnabled(false);
+                buttonAuDD.setEnabled(false);
+                buttonWati.setEnabled(false);
+                countDownTimer.cancel();
+                textScore.setText(""+score);
+            }
+        }
+
+        public void onClickGOT(View view) {
+            name = listExtrait.get(i).getName();
+            if (name == "officialopeningcreditsgameofthroneshbo") {
+                score++;
+                buttonGOT.setEnabled(false);
+                buttonGOT.setBackgroundColor(Color.GREEN);
+            } else {
+                buttonGOT.setEnabled(false);
+                buttonGOT.setBackgroundColor(Color.RED);
+            }
+            current.stop();
+            current.release();
+            i++;
+            current = listExtrait.get(i).getMp();
+            if(i<listExtrait.size()-1){
+                next.start();
+                next = listExtrait.get(i+1).getMp();
+            }
+            if(i==7){
+                buttonSimp.setEnabled(false);
+                buttonOuiOui.setEnabled(false);
+                buttonOnTheFloor.setEnabled(false);
+                buttonMarseillaise.setEnabled(false);
+                buttonLDC.setEnabled(false);
+                buttonGOT.setEnabled(false);
+                buttonAuDD.setEnabled(false);
+                buttonWati.setEnabled(false);
+                countDownTimer.cancel();
+                textScore.setText(""+score);
+            }
+        }
+
+        public void onClickAuDD(View view) {
+            name = listExtrait.get(i).getName();
+            if (name == "pnlauddclipofficiel") {
+                score++;
+                buttonAuDD.setEnabled(false);
+                buttonAuDD.setBackgroundColor(Color.GREEN);
+            } else {
+                buttonAuDD.setEnabled(false);
+                buttonAuDD.setBackgroundColor(Color.RED);
+            }
+            current.stop();
+            current.release();
+            i++;
+            current = listExtrait.get(i).getMp();
+            if(i<listExtrait.size()-1){
+                next.start();
+                next = listExtrait.get(i+1).getMp();
+            }
+            if(i==7){
+                buttonSimp.setEnabled(false);
+                buttonOuiOui.setEnabled(false);
+                buttonOnTheFloor.setEnabled(false);
+                buttonMarseillaise.setEnabled(false);
+                buttonLDC.setEnabled(false);
+                buttonGOT.setEnabled(false);
+                buttonAuDD.setEnabled(false);
+                buttonWati.setEnabled(false);
+                countDownTimer.cancel();
+                textScore.setText(""+score);
+            }
+        }
+
+        public void onClickOnTheFloor(View view) {
+            name = listExtrait.get(i).getName();
+            if (name == "icejjfishonthefloorofficialmusicvideothatrawcompresents") {
+                score++;
+                buttonOnTheFloor.setEnabled(false);
+                buttonOnTheFloor.setBackgroundColor(Color.GREEN);
+            } else {
+                buttonOnTheFloor.setEnabled(false);
+                buttonOnTheFloor.setBackgroundColor(Color.RED);
+            }
+            current.stop();
+            current.release();
+            i++;
+            current = listExtrait.get(i).getMp();
+            if(i<listExtrait.size()-1){
+                next.start();
+                next = listExtrait.get(i+1).getMp();
+            }
+            if(i==7){
+                buttonSimp.setEnabled(false);
+                buttonOuiOui.setEnabled(false);
+                buttonOnTheFloor.setEnabled(false);
+                buttonMarseillaise.setEnabled(false);
+                buttonLDC.setEnabled(false);
+                buttonGOT.setEnabled(false);
+                buttonAuDD.setEnabled(false);
+                buttonWati.setEnabled(false);
+                countDownTimer.cancel();
+                textScore.setText(""+score);
+            }
+        }
+
+        public void onClickWati(View view) {
+            name = listExtrait.get(i).getName();
+        name = listExtrait.get(i).getName();
+            if (name == "sexiondassautwatibynight") {
+                score++;
+                buttonWati.setEnabled(false);
+                buttonWati.setBackgroundColor(Color.GREEN);
+            } else {
+                buttonWati.setEnabled(false);
+                buttonWati.setBackgroundColor(Color.RED);
+            }
+            current.stop();
+            current.release();
+            i++;
+            current = listExtrait.get(i).getMp();
+            if(i<listExtrait.size()-1){
+                next.start();
+                next = listExtrait.get(i+1).getMp();
+            }
+            if(i==7){
+                buttonSimp.setEnabled(false);
+                buttonOuiOui.setEnabled(false);
+                buttonOnTheFloor.setEnabled(false);
+                buttonMarseillaise.setEnabled(false);
+                buttonLDC.setEnabled(false);
+                buttonGOT.setEnabled(false);
+                buttonAuDD.setEnabled(false);
+                buttonWati.setEnabled(false);
+                countDownTimer.cancel();
+                textScore.setText(""+score);
+            }
+        }
+
+        public void onClickMarseillaise(View view) {
+            name = listExtrait.get(i).getName();
+            if (name == "lamarseillaise") {
+                score++;
+                buttonMarseillaise.setEnabled(false);
+                buttonMarseillaise.setBackgroundColor(Color.GREEN);
+            } else {
+                buttonMarseillaise.setEnabled(false);
+                buttonMarseillaise.setBackgroundColor(Color.RED);
+            }
+            current.stop();
+            current.release();
+            i++;
+            current = listExtrait.get(i).getMp();
+            if(i<listExtrait.size()-1){
+                next.start();
+                next = listExtrait.get(i+1).getMp();
+            }
+            if(i==7){
+                buttonSimp.setEnabled(false);
+                buttonOuiOui.setEnabled(false);
+                buttonOnTheFloor.setEnabled(false);
+                buttonMarseillaise.setEnabled(false);
+                buttonLDC.setEnabled(false);
+                buttonGOT.setEnabled(false);
+                buttonAuDD.setEnabled(false);
+                buttonWati.setEnabled(false);
+                countDownTimer.cancel();
+                textScore.setText(""+score);
+            }
+
+        }
 
     public Button FindRightButton(String name) {
         if (name == "generiquedessimpson2eme") {
@@ -256,22 +567,23 @@ public class BlindTest extends AppCompatActivity {
     }
 
 
-    public void startBlindTest() {
-        countDownTimer.start();
-        Collections.shuffle(listExtrait);
+    /**public void startBlindTest() {
         int i;
-        for (i = 0; i < listExtrait.size(); i++) {
-            listExtrait.get(i).getMp().start();
+        for (i = 0; i < listExtrait.size()-1; i++) {
+            current = listExtrait.get(i).getMp();
+            if(i<listExtrait.size()-1){
+                next = listExtrait.get(i+1).getMp();
+            }
+            if(i==0){
+                current.start();
+            }
             name = listExtrait.get(i).getName();
             System.out.println(name);
-            while(listExtrait.get(i).getMp().isPlaying()){return;}
-            listExtrait.get(i).getMp().stop();
-            listExtrait.get(i).getMp().release();
         }
 
         //buttonStart.setEnabled(true);
         countDownTimer.cancel();
-    }
+    }**/
 
     public void onPrepared(MediaPlayer player) {
         player.start();

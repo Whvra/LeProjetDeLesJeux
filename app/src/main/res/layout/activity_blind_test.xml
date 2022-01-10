@@ -8,6 +8,19 @@
     tools:context=".BlindTest">
 
     <TextView
+        android:id="@+id/textScore2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="232dp"
+        android:text="Score :"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,6 +39,7 @@
         android:layout_height="63dp"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="4dp"
+        android:onClick="onClickMarseillaise"
         android:text="Marseillaise"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/buttonWati"
@@ -36,6 +50,7 @@
         android:layout_width="134dp"
         android:layout_height="63dp"
         android:layout_marginBottom="8dp"
+        android:onClick="onClickLDC"
         android:text="LDC"
         app:layout_constraintBottom_toTopOf="@+id/buttonOnTheFloor"
         app:layout_constraintEnd_toStartOf="@+id/buttonSimpson"
@@ -49,6 +64,7 @@
         android:layout_width="134dp"
         android:layout_height="63dp"
         android:layout_marginBottom="104dp"
+        android:onClick="onClickAuDD"
         android:text="Au DD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonGOT"
@@ -61,6 +77,7 @@
         android:layout_height="63dp"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="12dp"
+        android:onClick="onClickWati"
         android:text="Wati By Night"
         app:layout_constraintBottom_toTopOf="@+id/buttonGOT"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -70,6 +87,7 @@
         android:layout_width="134dp"
         android:layout_height="63dp"
         android:layout_marginBottom="12dp"
+        android:onClick="onClickOuiOui"
         android:text="Oui Oui"
         app:layout_constraintBottom_toTopOf="@+id/buttonAuDD"
         app:layout_constraintEnd_toStartOf="@+id/buttonWati"
@@ -82,6 +100,7 @@
         android:layout_height="63dp"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="8dp"
+        android:onClick="onClickSimpson"
         android:text="Les Simpsons"
         app:layout_constraintBottom_toTopOf="@+id/buttonMarseillaise"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,6 +113,7 @@
         android:layout_height="63dp"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="104dp"
+        android:onClick="onClickGOT"
         android:text="Game Of Thrones"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -103,6 +123,7 @@
         android:layout_width="134dp"
         android:layout_height="63dp"
         android:layout_marginBottom="4dp"
+        android:onClick="onClickOnTheFloor"
         android:text="On The FLoor"
         app:layout_constraintBottom_toTopOf="@+id/buttonOuiOui"
         app:layout_constraintEnd_toStartOf="@+id/buttonMarseillaise"
@@ -119,5 +140,29 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="64dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        app:layout_constraintStart_toEndOf="@+id/textScore2"
+        app:layout_constraintTop_toBottomOf="@+id/buttonStartBlindTest" />
+
+    <TextView
+        android:id="@+id/timerBT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.537"
+        app:layout_constraintStart_toEndOf="@+id/score"
+        app:layout_constraintTop_toBottomOf="@+id/buttonStartBlindTest" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
