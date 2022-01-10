@@ -8,11 +8,13 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/fond"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/vincent_lagaf_l_aventure_robinson_2b1f5d_0fdb" />
 
@@ -22,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
         android:background="#59000000"
-        android:text="LE JUSTE PRIX YOUHOOUUUU"
+        android:text="LE JUSTE PRIX"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
