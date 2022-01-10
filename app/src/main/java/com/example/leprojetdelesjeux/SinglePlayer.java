@@ -33,4 +33,9 @@ public class SinglePlayer extends AppCompatActivity {
         Intent intent = new Intent(this, PerfectCircle.class);
         startActivity(intent);
     }
+
+    public void OpenBlindTest(View view) {
+        Intent intent = new Intent(this, BlindTest.class);
+        startActivity(intent);
+    }
 }
