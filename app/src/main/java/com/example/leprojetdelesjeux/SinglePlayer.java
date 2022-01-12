@@ -38,4 +38,9 @@ public class SinglePlayer extends AppCompatActivity {
         Intent intent = new Intent(this, BlindTest.class);
         startActivity(intent);
     }
+
+    public void OpenTimeTarget(View view) {
+        Intent intent = new Intent(this, TimeTarget.class);
+        startActivity(intent);
+    }
 }
