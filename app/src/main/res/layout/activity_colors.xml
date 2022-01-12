@@ -4,8 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#6C6C6C"
+    android:background="@drawable/fond"
     tools:context=".Colors">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="380dp"
+        android:layout_height="480dp"
+        android:background="#806A6A"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.948" />
 
     <TextView
         android:id="@+id/Colors"
@@ -14,6 +26,7 @@
         android:layout_marginTop="36dp"
         android:text="Colors"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.293"
@@ -27,6 +40,7 @@
         android:layout_marginTop="32dp"
         android:text="Suivez les instructions pour gagner des points"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -41,7 +55,9 @@
         android:layout_marginBottom="152dp"
         android:background="#00FFFFFF"
         android:backgroundTint="#34FFFFFF"
+        android:onClick="onClick9"
         android:text="Button"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/button11"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -53,7 +69,9 @@
         android:layout_marginBottom="76dp"
         android:background="#00FFFFFF"
         android:backgroundTint="#34FFFFFF"
+        android:onClick="onClick7"
         android:text="Button"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/button9"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -65,7 +83,9 @@
         android:layout_marginBottom="68dp"
         android:background="#00FFFFFF"
         android:backgroundTint="#34FFFFFF"
+        android:onClick="onClick11"
         android:text="Button"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -74,10 +94,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
-        android:layout_marginBottom="96dp"
+        android:layout_marginBottom="124dp"
         android:background="#00FFFFFF"
         android:backgroundTint="#34FFFFFF"
+        android:onClick="onClick6"
         android:text="Button"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/button8"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -89,7 +111,9 @@
         android:layout_marginBottom="64dp"
         android:background="#00FFFFFF"
         android:backgroundTint="#34FFFFFF"
+        android:onClick="onClick8"
         android:text="Button"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/button10"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -101,7 +125,9 @@
         android:layout_marginTop="20dp"
         android:background="#00FFFFFF"
         android:backgroundTint="#34FFFFFF"
+        android:onClick="onClick10"
         android:text="Button"
+        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/button11" />
 
@@ -162,6 +188,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginTop="52dp"
         android:text="Score :"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/Colors"
         app:layout_constraintTop_toTopOf="parent" />
@@ -173,8 +200,10 @@
         android:layout_marginStart="124dp"
         android:layout_marginTop="52dp"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/Colors"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
