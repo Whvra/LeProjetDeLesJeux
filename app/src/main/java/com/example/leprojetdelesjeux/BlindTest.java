@@ -284,6 +284,18 @@ public class BlindTest extends AppCompatActivity {
                 timerBT.setText("Terminé");
                 finished = true;
                 buttonStart.setEnabled(true);
+                buttonSimp.setEnabled(false);
+                buttonOuiOui.setEnabled(false);
+                buttonOnTheFloor.setEnabled(false);
+                buttonMarseillaise.setEnabled(false);
+                buttonLDC.setEnabled(false);
+                buttonGOT.setEnabled(false);
+                buttonAuDD.setEnabled(false);
+                buttonWati.setEnabled(false);
+                countDownTimer.cancel();
+                score =0;
+                textScore.setText(""+score);
+                
             }
         };
     }

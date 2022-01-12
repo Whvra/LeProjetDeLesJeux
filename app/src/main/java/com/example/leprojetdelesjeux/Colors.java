@@ -40,6 +40,9 @@ public class Colors extends AppCompatActivity {
     public TextView textInstruction;
     public TextView scorePrint;
 
+    int indexAlea1;
+    int indexAlea2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,11 +97,11 @@ public class Colors extends AppCompatActivity {
         listcolors = colors;
 
         types.add("le mot");
-        types.add("la couleur");
+        //types.add("la couleur");
 
         Random random = new Random();
-        int indexAlea1 = random.nextInt(types.size());
-        int indexAlea2 = random.nextInt(names.size());
+        int indexAlea11 = random.nextInt(types.size());
+        int indexAlea22 = random.nextInt(names.size());
 
         for(int i =0;i<buttons.size();i++){
             buttons.get(i).setEnabled(false);
@@ -109,7 +112,7 @@ public class Colors extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 selected = false;
-                instruction = "Vous devez appuyer sur"+ types.get(indexAlea1) + names.get(indexAlea2);
+                instruction = "Vous devez appuyer sur"+ types.get(indexAlea11) + names.get(indexAlea22);
                 textInstruction.setText(instruction);
                 buttonStartColor.setEnabled(false);
                 score = 0;
@@ -122,7 +125,7 @@ public class Colors extends AppCompatActivity {
             }
         });
 
-        countDownTimer = new CountDownTimer(10 * 1000, 10) {
+        countDownTimer = new CountDownTimer(20 * 1000, 10) {
             public void onTick(long millisUntilFinished) {
                 timerColor.setText("Temps restant : " + millisUntilFinished / 1000);
                 started = true;
@@ -140,210 +143,6 @@ public class Colors extends AppCompatActivity {
             }
         };
 
-        button6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                randomize();
-                value2= (String) button6.getText();
-                value1= button6.getCurrentTextColor();
-                if(types.get(indexAlea1).equals("le mot")){
-                    if(value2 == names.get(indexAlea2)){
-                        textResult.setText("BRAVO");
-                        score++;
-                    }
-                    else{
-                        textResult.setText("Raté");
-                        score--;
-                    }
-                }
-                else{
-                    if(value1 == colors.get(indexAlea1)){
-                        textResult.setText("BRAVO");
-                        score++;
-                    }
-                    else{
-                        textResult.setText("Raté");
-                        score--;
-                    }
-                }
-            }
-        });
-
-        button7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                randomize();
-                value2= (String) button7.getText();
-                value1= button6.getCurrentTextColor();
-                if(types.get(indexAlea1).equals("le mot")){
-                    if(value2 == names.get(indexAlea2)){
-                        textResult.setText("BRAVO");
-                        score++;
-                    }
-                    else{
-                        textResult.setText("Raté");
-                        score--;
-                    }
-                }
-                else{
-                    if(value1 == colors.get(indexAlea1)){
-                        textResult.setText("BRAVO");
-                        score++;
-                    }
-                    else{
-                        textResult.setText("Raté");
-                        score--;
-                    }
-
-                }
-            }
-        });
-        button7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                randomize();
-                value2= (String) button8.getText();
-                value1= button6.getCurrentTextColor();
-                if(types.get(indexAlea1).equals("le mot")){
-                    if(value2 == names.get(indexAlea2)){
-                        textResult.setText("BRAVO");
-                        score++;
-                    }
-                    else{
-                        textResult.setText("Raté");
-                        score--;
-                    }
-                }
-                else{
-                    if(value1 == colors.get(indexAlea1)){
-                        textResult.setText("BRAVO");
-                        score++;
-                    }
-                    else{
-                        textResult.setText("Raté");
-                        score--;
-                    }
-
-                }
-            }
-        });
-        button8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                randomize();
-                value2= (String) button8.getText();
-                value1= button6.getCurrentTextColor();
-                if(types.get(indexAlea1).equals("le mot")){
-                    if(value2 == names.get(indexAlea2)){
-                        textResult.setText("BRAVO");
-                        score++;
-                    }
-                    else{
-                        textResult.setText("Raté");
-                        score--;
-                    }
-                }
-                else{
-                    if(value1 == colors.get(indexAlea1)){
-                        textResult.setText("BRAVO");
-                        score++;
-                    }
-                    else{
-                        textResult.setText("Raté");
-                        score--;
-                    }
-
-                }
-            }
-        });
-        button9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                randomize();
-                value2= (String) button9.getText();
-                value1= button6.getCurrentTextColor();
-                if(types.get(indexAlea1).equals("le mot")){
-                    if(value2 == names.get(indexAlea2)){
-                        textResult.setText("BRAVO");
-                        score++;
-                    }
-                    else{
-                        textResult.setText("Raté");
-                        score--;
-                    }
-                }
-                else{
-                    if(value1 == colors.get(indexAlea1)){
-                        textResult.setText("BRAVO");
-                        score++;
-                    }
-                    else{
-                        textResult.setText("Raté");
-                        score--;
-                    }
-
-                }
-            }
-        });
-        button10.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                randomize();
-                value2= (String) button10.getText();
-                value1= button6.getCurrentTextColor();
-                if(types.get(indexAlea1).equals("le mot")){
-                    if(value2 == names.get(indexAlea2)){
-                        textResult.setText("BRAVO");
-                        score++;
-                    }
-                    else{
-                        textResult.setText("Raté");
-                        score--;
-                    }
-                }
-                else{
-                    if(value1 == colors.get(indexAlea1)){
-                        textResult.setText("BRAVO");
-                        score++;
-                    }
-                    else{
-                        textResult.setText("Raté");
-                        score--;
-                    }
-
-                }
-            }
-        });
-
-        button11.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                randomize();
-                value2= (String) button11.getText();
-                value1= button6.getCurrentTextColor();
-                if(types.get(indexAlea1)=="le mot"){
-                    if(value2 == names.get(indexAlea2)){
-                        textResult.setText("BRAVO");
-                        score++;
-                    }
-                    else{
-                        textResult.setText("Raté");
-                        score--;
-                    }
-                }
-                else{
-                    if(value1 == colors.get(indexAlea1)){
-                        textResult.setText("BRAVO");
-                        score++;
-                    }
-                    else{
-                        textResult.setText("Raté");
-                        score--;
-                    }
-
-                }
-            }
-        });
     }
 
     public void randomize(){
@@ -359,7 +158,7 @@ public class Colors extends AppCompatActivity {
         for(int i=0;i<buttons.size();i++){
             Random random = new Random();
 
-            int sizeAlea = 5 +random.nextInt(40);
+            int sizeAlea = 8 +random.nextInt(30);
             buttons.get(i).setTextSize(sizeAlea);
             int indexAlea1 = random.nextInt(listname.size());
             buttons.get(i).setText(listname.get(indexAlea1));
@@ -369,6 +168,195 @@ public class Colors extends AppCompatActivity {
             listcolors.remove(indexAlea2);
         }
 
+    }
+
+    public void onClick6(View view) {
+        randomize();
+        value2= (String) button6.getText();
+        value1= button6.getCurrentTextColor();
+        if(types.get(indexAlea1).equals("le mot")){
+            if(value2 == names.get(indexAlea2)){
+                textResult.setText("BRAVO");
+                score++;
+                scorePrint.setText(""+score);
+            }
+            else{
+                textResult.setText("Raté");
+                score--;
+                scorePrint.setText(""+score);
+            }
+        }
+        else{
+            if(value1 == colors.get(indexAlea1)){
+                textResult.setText("BRAVO");
+                score++;
+                scorePrint.setText(""+score);
+            }
+            else{
+                textResult.setText("Raté");
+                score--;
+                scorePrint.setText(""+score);
+            }
+        }
+    }
+
+
+
+    public void onClick7(View view) {
+        randomize();
+        value2= (String) button7.getText();
+        value1= button7.getCurrentTextColor();
+        if(types.get(indexAlea1).equals("le mot")){
+            if(value2 == names.get(indexAlea2)){
+                textResult.setText("BRAVO");
+                score++;
+                scorePrint.setText(""+score);
+            }
+            else{
+                textResult.setText("Raté");
+                score--;
+                scorePrint.setText(""+score);
+            }
+        }
+        else{
+            if(value1 == colors.get(indexAlea1)){
+                textResult.setText("BRAVO");
+                score++;
+                scorePrint.setText(""+score);
+            }
+            else{
+                textResult.setText("Raté");
+                score--;
+                scorePrint.setText(""+score);
+            }
+
+        }
+    }
+
+
+    public void onClick8(View view) {
+        randomize();
+        value2= (String) button8.getText();
+        value1= button8.getCurrentTextColor();
+        if(types.get(indexAlea1).equals("le mot")){
+            if(value2 == names.get(indexAlea2)){
+                textResult.setText("BRAVO");
+                score++;
+                scorePrint.setText(""+score);
+            }
+            else{
+                textResult.setText("Raté");
+                score--;
+                scorePrint.setText(""+score);
+            }
+        }
+        else{
+            if(value1 == colors.get(indexAlea1)){
+                textResult.setText("BRAVO");
+                score++;
+                scorePrint.setText(""+score);
+            }
+            else{
+                textResult.setText("Raté");
+                score--;
+                scorePrint.setText(""+score);
+            }
+
+        }
+    }
+
+    public void onClick9(View view) {
+        randomize();
+        value2= (String) button9.getText();
+        value1= button9.getCurrentTextColor();
+        if(types.get(indexAlea1).equals("le mot")){
+            if(value2 == names.get(indexAlea2)){
+                textResult.setText("BRAVO");
+                score++;
+                scorePrint.setText(""+score);
+            }
+            else{
+                textResult.setText("Raté");
+                score--;
+                scorePrint.setText(""+score);
+            }
+        }
+        else{
+            if(value1 == colors.get(indexAlea1)){
+                textResult.setText("BRAVO");
+                score++;
+                scorePrint.setText(""+score);
+            }
+            else{
+                textResult.setText("Raté");
+                score--;
+                scorePrint.setText(""+score);
+            }
+
+        }
+    }
+
+    public void onClick10(View view) {
+        randomize();
+        value2= (String) button10.getText();
+        value1= button10.getCurrentTextColor();
+        if(types.get(indexAlea1).equals("le mot")){
+            if(value2 == names.get(indexAlea2)){
+                textResult.setText("BRAVO");
+                score++;
+                scorePrint.setText(""+score);
+            }
+            else{
+                textResult.setText("Raté");
+                score--;
+                scorePrint.setText(""+score);
+            }
+        }
+        else{
+            if(value1 == colors.get(indexAlea1)){
+                textResult.setText("BRAVO");
+                score++;
+                scorePrint.setText(""+score);
+            }
+            else{
+                textResult.setText("Raté");
+                score--;
+                scorePrint.setText(""+score);
+            }
+
+        }
+    }
+
+    public void onClick11(View view) {
+        randomize();
+        value2= (String) button11.getText();
+        value1= button11.getCurrentTextColor();
+
+        if(types.get(indexAlea1).equals("le mot")){
+            if(value2 == names.get(indexAlea2)){
+                textResult.setText("BRAVO");
+                score++;
+                scorePrint.setText(""+score);
+            }
+            else{
+                textResult.setText("Raté");
+                score--;
+                scorePrint.setText(""+score);
+            }
+        }
+        else{
+            if(value1 == colors.get(indexAlea1)){
+                textResult.setText("BRAVO");
+                score++;
+                scorePrint.setText(""+score);
+            }
+            else{
+                textResult.setText("Raté");
+                score--;
+                scorePrint.setText(""+score);
+            }
+
+        }
     }
 
 }
