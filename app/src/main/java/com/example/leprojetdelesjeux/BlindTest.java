@@ -1,7 +1,12 @@
 package com.example.leprojetdelesjeux;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -43,14 +48,35 @@ public class BlindTest extends AppCompatActivity {
     private CountDownTimer countDownTimer;
 
     int i;
+    int[] tabScores = new int[2];
+
+    public ActivityResultLauncher<Intent> startActivityForResults;
 
     Boolean started;
     Boolean finished;
+
+    public static final String RESULT = "RESULT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blind_test);
+
+        startActivityForResults = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if(result != null && result.getResultCode() == RESULT_OK) {
+                    if(result.getData() != null && result.getData().getIntArrayExtra(TimeTarget.RESULT) != null) {
+                        int[] resultatsTimeTarget = result.getData().getIntArrayExtra(TimeTarget.RESULT);
+                        tabScores[1] = resultatsTimeTarget[0];
+                        Intent intentMulti = new Intent();
+                        intentMulti.putExtra(RESULT, tabScores);
+                        setResult(RESULT_OK, intentMulti);
+                        finish();
+                    }
+                }
+            }
+        });
 
         score = 0;
         buttonStart = findViewById(R.id.buttonStartBlindTest);
@@ -293,9 +319,10 @@ public class BlindTest extends AppCompatActivity {
                 buttonAuDD.setEnabled(false);
                 buttonWati.setEnabled(false);
                 countDownTimer.cancel();
+                int scoreFinal = score;
                 score =0;
                 textScore.setText(""+score);
-                
+                lancerActiviteSuivante(scoreFinal);
             }
         };
     }
@@ -329,6 +356,7 @@ public class BlindTest extends AppCompatActivity {
                 buttonWati.setEnabled(false);
                 countDownTimer.cancel();
                 textScore.setText(""+score);
+                lancerActiviteSuivante(score);
             }
         }
 
@@ -361,6 +389,7 @@ public class BlindTest extends AppCompatActivity {
                 buttonWati.setEnabled(false);
                 countDownTimer.cancel();
                 textScore.setText(""+score);
+                lancerActiviteSuivante(score);
             }
         }
 
@@ -393,6 +422,7 @@ public class BlindTest extends AppCompatActivity {
                 buttonWati.setEnabled(false);
                 countDownTimer.cancel();
                 textScore.setText(""+score);
+                lancerActiviteSuivante(score);
             }
         }
 
@@ -425,6 +455,7 @@ public class BlindTest extends AppCompatActivity {
                 buttonWati.setEnabled(false);
                 countDownTimer.cancel();
                 textScore.setText(""+score);
+                lancerActiviteSuivante(score);
             }
         }
 
@@ -457,6 +488,7 @@ public class BlindTest extends AppCompatActivity {
                 buttonWati.setEnabled(false);
                 countDownTimer.cancel();
                 textScore.setText(""+score);
+                lancerActiviteSuivante(score);
             }
         }
 
@@ -489,6 +521,7 @@ public class BlindTest extends AppCompatActivity {
                 buttonWati.setEnabled(false);
                 countDownTimer.cancel();
                 textScore.setText(""+score);
+                lancerActiviteSuivante(score);
             }
         }
 
@@ -522,6 +555,7 @@ public class BlindTest extends AppCompatActivity {
                 buttonWati.setEnabled(false);
                 countDownTimer.cancel();
                 textScore.setText(""+score);
+                lancerActiviteSuivante(score);
             }
         }
 
@@ -554,9 +588,26 @@ public class BlindTest extends AppCompatActivity {
                 buttonWati.setEnabled(false);
                 countDownTimer.cancel();
                 textScore.setText(""+score);
+                lancerActiviteSuivante(score);
             }
 
         }
+
+    private void lancerActiviteSuivante(int score) {
+        new CountDownTimer(3 * 1000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                System.out.println("tic tac");
+            }
+
+            public void onFinish() {
+                tabScores[0] = score;
+                //System.out.println("Temps restant : "+timerBT.getText().toString());
+                //tabScores[1] = Integer.parseInt(timerBT.getText().toString());
+                Intent intent = new Intent(getApplicationContext(), TimeTarget.class);
+                startActivityForResults.launch(intent);
+            }
+        }.start();
+    }
 
     public Button FindRightButton(String name) {
         if (name == "generiquedessimpson2eme") {

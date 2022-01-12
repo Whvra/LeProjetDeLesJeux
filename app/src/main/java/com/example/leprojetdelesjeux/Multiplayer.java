@@ -3,7 +3,6 @@ package com.example.leprojetdelesjeux;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,7 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.net.InetAddresses;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
@@ -32,15 +30,12 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -66,14 +61,16 @@ public class Multiplayer extends AppCompatActivity {
     ClientClass clientClass;
     boolean isHost;
 
+    int[] tabScores;
+
     //analyse du résultat reçu par l'activité lancée
     ActivityResultLauncher<Intent> startActivityForResults = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
             if(result != null && result.getResultCode() == RESULT_OK) {
                 if(result.getData() != null && result.getData().getIntArrayExtra(ShakeIt.RESULT) != null) {
-                    //infosConnexion.setText(result.getData().getIntArrayExtra(ShakeIt.RESULT));
-                    for(int i = 0; i < result.getData().getIntArrayExtra(ShakeIt.RESULT).length; i++) {
+                    tabScores = result.getData().getIntArrayExtra(ShakeIt.RESULT);
+                    for(int i = 0; i < tabScores.length; i++) {
                         System.out.println("Jeu "+i+" : "+result.getData().getIntArrayExtra(ShakeIt.RESULT)[i]);
                     }
                     if(!isHost) {
@@ -81,8 +78,7 @@ public class Multiplayer extends AppCompatActivity {
                         executor.execute(new Runnable() {
                             @Override
                             public void run() {
-                                int[] resultatsObtenus = result.getData().getIntArrayExtra(ShakeIt.RESULT);
-                                String results = "shake:"+resultatsObtenus[0]+";light:"+resultatsObtenus[1]+";scream:"+resultatsObtenus[2]+";justePrix:"+resultatsObtenus[3];
+                                String results = tabScores[0]+";"+tabScores[1]+";"+tabScores[2]+";"+tabScores[3]+";"+tabScores[4]+";"+tabScores[5];
                                 clientClass.write(results.getBytes());
                             }
                         });
@@ -326,7 +322,39 @@ public class Multiplayer extends AppCompatActivity {
                                             startActivityForResults.launch(intent);
                                         }
                                         else { //sinon, réception des résultats
-                                            infosConnexion.setText(tempMsg);
+                                            //analyse de la chaîne de caractères contenant les scores
+                                            String winner = comparerScores(tempMsg, tabScores);
+                                            System.out.println("The winner is "+winner);
+                                            if(winner.equals("host")) {
+                                                infosConnexion.setText("Vainqueur !");
+                                                ExecutorService executor = Executors.newSingleThreadExecutor();
+                                                executor.execute(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        serverClass.write("loser".getBytes());
+                                                    }
+                                                });
+                                            }
+                                            else if(winner.equals("client")){
+                                                infosConnexion.setText("Loseeeer");
+                                                ExecutorService executor = Executors.newSingleThreadExecutor();
+                                                executor.execute(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        serverClass.write("winner".getBytes());
+                                                    }
+                                                });
+                                            }
+                                            else if(winner.equals("nobody")){
+                                                infosConnexion.setText("Egalité !");
+                                                ExecutorService executor = Executors.newSingleThreadExecutor();
+                                                executor.execute(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        serverClass.write("nobody".getBytes());
+                                                    }
+                                                });
+                                            }
                                         }
                                     }
                                 });
@@ -337,6 +365,63 @@ public class Multiplayer extends AppCompatActivity {
                     }
                 }
             });
+        }
+
+        private String comparerScores(String tempMsg, int[] resultatsHote) {
+            String winner;
+            int hostPoints = 0;
+            int clientPoints = 0;
+            int[] resultatsClient = analyserChaineResultat(tempMsg);
+            System.out.print("Client : ");
+            for(int i = 0; i < resultatsClient.length; i++) {
+                System.out.print(resultatsClient[i]+" | ");
+            }
+            System.out.println("");
+            System.out.print("Hôte : ");
+            for(int i = 0; i < resultatsHote.length; i++) {
+                System.out.print(resultatsHote[i]+" | ");
+            }
+            System.out.println("");
+            for(int i = 0; i < resultatsHote.length; i++) {
+                if(i==5) {
+                    if(resultatsHote[i] > resultatsClient[i]) {
+                        System.out.println("point pour le client");
+                        clientPoints++;
+                    }
+                    else if(resultatsClient[i] > resultatsHote[i]) {
+                        System.out.println("point pour le host'");
+                        hostPoints++;
+                    }
+                }
+                if(resultatsHote[i] > resultatsClient[i]) {
+                    System.out.println("point pour l'hôte");
+                    hostPoints++;
+                }
+                else if(resultatsClient[i] > resultatsHote[i]) {
+                    System.out.println("point pour le client");
+                    clientPoints++;
+                }
+            }
+            if(hostPoints > clientPoints) {
+                winner = "host";
+            }
+            else if (clientPoints > hostPoints){
+                winner = "client";
+            }
+            else {
+                winner = "nobody";
+            }
+            return winner;
+        }
+
+        private int[] analyserChaineResultat(String tempMsg) {
+            int[] tabScores = new int[6];
+            String[] splitted = tempMsg.split(";");
+            //System.out.println("Tab splitted 1 : "+splitted.toString());
+            for(int i = 0; i < splitted.length; i++) {
+                tabScores[i] = Integer.parseInt(splitted[i]);
+            }
+            return tabScores;
         }
     }
 
@@ -399,8 +484,14 @@ public class Multiplayer extends AppCompatActivity {
                                             Intent intent = new Intent(getApplicationContext(), ShakeIt.class);
                                             startActivityForResults.launch(intent);
                                         }
-                                        else { //sinon, réception des résultats
-                                            System.out.println("Je n'ai pas lancé l'activité");
+                                        else if(tempMsg.equals("winner")) { //si vainqueur
+                                            infosConnexion.setText("Vainqueur !");
+                                        }
+                                        else if(tempMsg.equals("loser")) { //si vainqueur
+                                            infosConnexion.setText("Looooser !");
+                                        }
+                                        else if(tempMsg.equals("nobody")){
+                                            infosConnexion.setText("Egalité !");
                                         }
                                     }
                                 });

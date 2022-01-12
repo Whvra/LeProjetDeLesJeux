@@ -2,6 +2,7 @@ package com.example.leprojetdelesjeux;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -21,7 +22,10 @@ public class TimeTarget extends AppCompatActivity {
     TextView timeGuess;
     TextView resultText;
     Button stop;
-    double diff;
+    double diff = 0;
+    int[] tabScores = new int[1];
+
+    public static final String RESULT = "RESULT";
 
 
     @Override
@@ -72,11 +76,29 @@ public class TimeTarget extends AppCompatActivity {
                 double timerValue = Double.parseDouble((String)timer.getText());
                 diff = Math.abs(rand - timerValue);
                 resultText.setText("Différence de : "+diff);
+                envoyerResultats(diff);
             }
         });
     }
 
+    private void envoyerResultats(double diff) {
+        new CountDownTimer(3 * 1000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                System.out.println("tic tac");
+            }
 
-
-
+            public void onFinish() {
+                double doubleDiff = diff*1000;
+                int difference = (int)doubleDiff;
+                System.out.println("double différence : "+diff);
+                System.out.println("double différence * 1000 : "+doubleDiff);
+                System.out.println("int différence : "+difference);
+                tabScores[0] = difference;
+                Intent intentMulti = new Intent();
+                intentMulti.putExtra(RESULT, tabScores);
+                setResult(RESULT_OK, intentMulti);
+                finish();
+            }
+        }.start();
+    }
 }

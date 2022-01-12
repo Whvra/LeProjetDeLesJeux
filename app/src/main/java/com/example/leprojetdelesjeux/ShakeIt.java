@@ -41,7 +41,7 @@ public class ShakeIt extends AppCompatActivity implements SensorEventListener {
     private Sensor accelerometer;
     private Sensor lightSensor;
     private int scoreShake, scoreLight, scoreScream;
-    private int[] tabScores = new int[10];
+    private int[] tabScores = new int[6];
     private int gameToLaunch;
     private boolean sensorOn;
     public static final String RESULT = "RESULT";
@@ -61,7 +61,10 @@ public class ShakeIt extends AppCompatActivity implements SensorEventListener {
             public void onActivityResult(ActivityResult result) {
                 if(result != null && result.getResultCode() == RESULT_OK) {
                     if(result.getData() != null && result.getData().getIntArrayExtra(JustePrix.RESULT) != null) {
-                        tabScores[3] = result.getData().getIntArrayExtra(JustePrix.RESULT)[0];
+                        int[] resultatsJustePrix = result.getData().getIntArrayExtra(JustePrix.RESULT);
+                        tabScores[3] = resultatsJustePrix[0];
+                        tabScores[4] = resultatsJustePrix[1];
+                        tabScores[5] = resultatsJustePrix[2];
                         Intent intentMulti = new Intent();
                         intentMulti.putExtra(RESULT, tabScores);
                         setResult(RESULT_OK, intentMulti);
@@ -171,8 +174,16 @@ public class ShakeIt extends AppCompatActivity implements SensorEventListener {
     }
 
     public void lancerActiviteSuivante(){
-        Intent intent = new Intent(getApplicationContext(), JustePrix.class);
-        startActivityForResults.launch(intent);
+        new CountDownTimer(3 * 1000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                System.out.println("tic tac");
+            }
+
+            public void onFinish() {
+                Intent intent = new Intent(getApplicationContext(), JustePrix.class);
+                startActivityForResults.launch(intent);
+            }
+        }.start();
     }
 
     @Override

@@ -1,5 +1,9 @@
 package com.example.leprojetdelesjeux;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -25,15 +29,33 @@ public class JustePrix extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private boolean finished;
     private boolean started = false;
-    private int[] tabScores = new int[1];
+    private int[] tabScores = new int[3];
     private int prix;
     private int rand;
     public static final String RESULT = "RESULT";
+    public ActivityResultLauncher<Intent> startActivityForResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_juste_prix);
+
+        startActivityForResults = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if(result != null && result.getResultCode() == RESULT_OK) {
+                    if(result.getData() != null && result.getData().getIntArrayExtra(BlindTest.RESULT) != null) {
+                        int[] resultatsBlindTest = result.getData().getIntArrayExtra(BlindTest.RESULT);
+                        tabScores[1] = resultatsBlindTest[0];
+                        tabScores[2] = resultatsBlindTest[1];
+                        Intent intentMulti = new Intent();
+                        intentMulti.putExtra(RESULT, tabScores);
+                        setResult(RESULT_OK, intentMulti);
+                        finish();
+                    }
+                }
+            }
+        });
 
         //System.out.println(prix);
 
@@ -69,7 +91,7 @@ public class JustePrix extends AppCompatActivity {
                                 tabScores[0] = 1;
                                 countDownTimer.cancel();
                                 buttonStart.setEnabled(true);
-                                envoyerResultat();
+                                lancerActiviteSuivante();
                             } else {
                                 textResult.setText("C'est moins!");
                             }
@@ -137,23 +159,20 @@ public class JustePrix extends AppCompatActivity {
                 finished = true;
                 buttonStart.setEnabled(true);
                 tabScores[0] = 0;
-                envoyerResultat();
+                lancerActiviteSuivante();
             }
         };
     }
 
-    private void envoyerResultat(){
-        System.out.println("hey");
+    private void lancerActiviteSuivante(){
         new CountDownTimer(3 * 1000, 1000) {
             public void onTick(long millisUntilFinished) {
                 System.out.println("tic tac");
             }
 
             public void onFinish() {
-                Intent intentMulti = new Intent();
-                intentMulti.putExtra(RESULT, tabScores);
-                setResult(RESULT_OK, intentMulti);
-                finish();
+                Intent intent = new Intent(getApplicationContext(), BlindTest.class);
+                startActivityForResults.launch(intent);
             }
         }.start();
     }
