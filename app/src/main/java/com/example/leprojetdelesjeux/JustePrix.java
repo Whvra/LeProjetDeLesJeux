@@ -2,6 +2,7 @@ package com.example.leprojetdelesjeux;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
@@ -11,6 +12,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.concurrent.TimeUnit;
 
 public class JustePrix extends AppCompatActivity {
 
@@ -22,8 +25,10 @@ public class JustePrix extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private boolean finished;
     private boolean started = false;
+    private int[] tabScores = new int[1];
     private int prix;
     private int rand;
+    public static final String RESULT = "RESULT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +66,10 @@ public class JustePrix extends AppCompatActivity {
                                 textResult.setText("C'est plus !");
                             } else if (guess == prix) {
                                 textResult.setText("Bravo c'est gagné, le prix était bien : " + prix);
+                                tabScores[0] = 1;
                                 countDownTimer.cancel();
                                 buttonStart.setEnabled(true);
+                                envoyerResultat();
                             } else {
                                 textResult.setText("C'est moins!");
                             }
@@ -129,8 +136,26 @@ public class JustePrix extends AppCompatActivity {
                 timer.setText("Temps Ecoulé");
                 finished = true;
                 buttonStart.setEnabled(true);
+                tabScores[0] = 0;
+                envoyerResultat();
             }
         };
+    }
+
+    private void envoyerResultat(){
+        System.out.println("hey");
+        new CountDownTimer(3 * 1000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                System.out.println("tic tac");
+            }
+
+            public void onFinish() {
+                Intent intentMulti = new Intent();
+                intentMulti.putExtra(RESULT, tabScores);
+                setResult(RESULT_OK, intentMulti);
+                finish();
+            }
+        }.start();
     }
 
 }
