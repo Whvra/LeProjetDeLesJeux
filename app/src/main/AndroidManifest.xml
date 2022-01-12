@@ -20,11 +20,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LeProjetDeLesJeux">
         <activity
+            android:name=".Loser"
+            android:exported="true" />
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity" />
+        <activity
+            android:name=".Winner"
+            android:exported="true" />
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity" />
+        <activity
             android:name=".TimeTarget"
             android:exported="true" />
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity" />
         <activity
             android:name=".PerfectCircle"
             android:exported="true" />
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity" />
         <activity
             android:name=".Colors"
             android:exported="true"
