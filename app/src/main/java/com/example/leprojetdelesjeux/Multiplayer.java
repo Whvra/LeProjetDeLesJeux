@@ -334,6 +334,8 @@ public class Multiplayer extends AppCompatActivity {
                                                         serverClass.write("loser".getBytes());
                                                     }
                                                 });
+                                                Intent victory = new Intent(getApplicationContext(), Winner.class);
+                                                startActivity(victory);
                                             }
                                             else if(winner.equals("client")){
                                                 infosConnexion.setText("Loseeeer");
@@ -344,6 +346,8 @@ public class Multiplayer extends AppCompatActivity {
                                                         serverClass.write("winner".getBytes());
                                                     }
                                                 });
+                                                Intent defeat = new Intent(getApplicationContext(), Loser.class);
+                                                startActivity(defeat);
                                             }
                                             else if(winner.equals("nobody")){
                                                 infosConnexion.setText("Egalité !");
@@ -486,9 +490,13 @@ public class Multiplayer extends AppCompatActivity {
                                         }
                                         else if(tempMsg.equals("winner")) { //si vainqueur
                                             infosConnexion.setText("Vainqueur !");
+                                            Intent victory = new Intent(getApplicationContext(), Winner.class);
+                                            startActivity(victory);
                                         }
-                                        else if(tempMsg.equals("loser")) { //si vainqueur
+                                        else if(tempMsg.equals("loser")) { //si perdant
                                             infosConnexion.setText("Looooser !");
+                                            Intent defeat = new Intent(getApplicationContext(), Loser.class);
+                                            startActivity(defeat);
                                         }
                                         else if(tempMsg.equals("nobody")){
                                             infosConnexion.setText("Egalité !");

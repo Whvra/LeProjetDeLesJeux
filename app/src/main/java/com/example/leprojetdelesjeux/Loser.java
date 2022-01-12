@@ -12,7 +12,7 @@ public class Loser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loser);
 
-        MediaPlayer loseSong = MediaPlayer.create(this, R.raw.corobizarpuelamerdenarutoparodie);
+        MediaPlayer loseSong = MediaPlayer.create(this, R.raw.coro);
         loseSong.start();
     }
 }
