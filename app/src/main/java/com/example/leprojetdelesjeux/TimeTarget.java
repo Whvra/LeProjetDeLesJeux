@@ -48,7 +48,7 @@ public class TimeTarget extends AppCompatActivity {
                 buttonStart.setEnabled(false);
                 stop.setEnabled(true);
                 Random random = new Random();
-                rand = random.nextInt(1000)/100.00;
+                rand = 2+random.nextInt(800)/100.00;
                 timeGuess.setText(""+ rand);
                 resultText.setText("");
             }

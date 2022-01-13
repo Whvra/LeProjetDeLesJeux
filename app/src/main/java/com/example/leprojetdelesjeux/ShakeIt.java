@@ -244,7 +244,7 @@ class SoundMeter {
             mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
             mRecorder.setOutputFile("/dev/null");
             mRecorder.prepare();
-            Thread.sleep(1000);
+            Thread.sleep(2000);
             mRecorder.start();
         }
     }
