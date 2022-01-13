@@ -64,6 +64,7 @@ public class TimeTarget extends AppCompatActivity {
                 timer.setText("Temps Ecoulé");
                 finished = true;
                 buttonStart.setEnabled(true);
+                stop.setEnabled(false);
             }
         };
 
