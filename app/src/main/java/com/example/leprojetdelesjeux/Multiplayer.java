@@ -358,6 +358,8 @@ public class Multiplayer extends AppCompatActivity {
                                                         serverClass.write("nobody".getBytes());
                                                     }
                                                 });
+                                                Intent draw = new Intent(getApplicationContext(), Tie.class);
+                                                startActivity(draw);
                                             }
                                         }
                                     }
@@ -500,6 +502,8 @@ public class Multiplayer extends AppCompatActivity {
                                         }
                                         else if(tempMsg.equals("nobody")){
                                             infosConnexion.setText("Egalité !");
+                                            Intent draw = new Intent(getApplicationContext(), Tie.class);
+                                            startActivity(draw);
                                         }
                                     }
                                 });
